@@ -33,6 +33,10 @@ public class UserServiceCustom implements IUserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+    @Override
+    public User saveWithOutEncodePass(User user) {
+        return userRepository.save(user);
+    }
 
     @Override
     public void remove(int id) {
@@ -57,4 +61,6 @@ public class UserServiceCustom implements IUserService {
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
+
+
 }

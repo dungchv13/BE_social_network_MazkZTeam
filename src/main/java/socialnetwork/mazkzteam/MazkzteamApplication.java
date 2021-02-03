@@ -47,7 +47,7 @@ public class MazkzteamApplication {
             roles.add(roleAdmin);
             admin.setUsername("admin");
             admin.setPassword("123456");
-            admin.setBlocked(true);
+            admin.setBlocked(false);
             admin.setRoles(roles);
             userService.save(admin);
         }

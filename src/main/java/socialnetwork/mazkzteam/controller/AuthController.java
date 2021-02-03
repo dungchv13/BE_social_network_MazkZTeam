@@ -60,6 +60,9 @@ public class AuthController {
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User currentUser = userService.findByUsername(user.getUsername()).get();
+        if (currentUser.isBlocked()) {
+            return new ResponseEntity<>("This account was blocked", HttpStatus.NOT_ACCEPTABLE);
+        }
         return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
@@ -71,7 +74,7 @@ public class AuthController {
         newUser.setLastName(user.getLastName());
         newUser.setAddress(user.getAddress());
         newUser.setAvatar(user.getAvatar());
-        newUser.setBlocked(true);
+        newUser.setBlocked(false);
         Date date = new Date();
         Timestamp created_date = new Timestamp(date.getTime());
         newUser.setCreatedDate(created_date);

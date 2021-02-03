@@ -9,4 +9,6 @@ public interface IUserService extends IGeneralService<User>, UserDetailsService 
     Optional<User> findByUsername(String username);
 
     boolean existsByUsername(String username);
+
+    User saveWithOutEncodePass(User user);
 }
