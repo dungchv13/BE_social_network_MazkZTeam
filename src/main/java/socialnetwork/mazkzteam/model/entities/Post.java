@@ -7,6 +7,7 @@ import org.springframework.context.annotation.EnableMBeanExport;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,10 +36,10 @@ public class Post {
     private Timestamp modifiedAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private List<Photo> photoList;
+    private List<Photo> photoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
 
 
 }
