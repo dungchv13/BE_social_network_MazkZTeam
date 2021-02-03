@@ -3,10 +3,12 @@ package socialnetwork.mazkzteam.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.entities.Post;
+import socialnetwork.mazkzteam.model.entities.User;
 import socialnetwork.mazkzteam.model.repositories.PostRepository;
 import socialnetwork.mazkzteam.model.service.PostService;
 
 import java.util.List;
+
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -38,6 +40,11 @@ public class PostServiceImpl implements PostService {
         return false;
     }
 
+
+    @Override
+    public List<Post> findAllByUser(User user) {
+        return postRepository.findAllByUser(user);
+    }
 
 
 }

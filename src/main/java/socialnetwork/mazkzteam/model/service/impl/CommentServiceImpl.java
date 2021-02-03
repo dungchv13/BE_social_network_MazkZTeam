@@ -1,12 +1,13 @@
 package socialnetwork.mazkzteam.model.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.entities.Comment;
 import socialnetwork.mazkzteam.model.repositories.CommentRepository;
 import socialnetwork.mazkzteam.model.service.CommentService;
 
 import java.util.List;
-
+@Service
 public class CommentServiceImpl implements CommentService {
 
     @Autowired

@@ -1,12 +1,13 @@
 package socialnetwork.mazkzteam.model.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.entities.Photo;
 import socialnetwork.mazkzteam.model.repositories.PhotoRepository;
 import socialnetwork.mazkzteam.model.service.PhotoService;
 
 import java.util.List;
-
+@Service
 public class PhotoServiceImpl implements PhotoService {
 
     @Autowired
@@ -37,4 +38,8 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
 
+    @Override
+    public List<Photo> saveAllPhoto(List<Photo> photoList) {
+        return photoRepository.saveAll(photoList);
+    }
 }
