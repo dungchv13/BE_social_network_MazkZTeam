@@ -13,6 +13,8 @@ import socialnetwork.mazkzteam.model.service.UserService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,7 +42,11 @@ public class PersonalPageController {
     @GetMapping("/posts")
     public List<Post> getPosts(@PathVariable("username") String username){
         User user = userService.findUserByUsername(username);
-        return postService.findAllByUser(user);
+
+        List<Post> postList = postService.findAllByUser(user);
+        Collections.reverse(postList);
+
+        return postList;
     }
 
     @PostMapping("/create/post")
@@ -77,5 +83,11 @@ public class PersonalPageController {
         post1.setContent(post.getContent());
 
         return postService.save(post1);
+    }
+
+
+    @DeleteMapping("/delete/post/{id}")
+    public boolean deletePost(@PathVariable("id") int id){
+        return postService.deleteById(id);
     }
 }
