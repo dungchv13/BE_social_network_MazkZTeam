@@ -47,4 +47,14 @@ public class FriendListController {
         friendshipService.deleteFriend(idReceiver,idSender);
     }
 
+    @GetMapping("/accept")
+    public void acceptFriend(@RequestParam("senderId") Integer idSender, @RequestParam("receiverId")Integer idReceiver){
+        friendshipService.acceptFriend(idSender,idReceiver);
+    }
+
+    @GetMapping("/addfriend")
+    public void addFriend(@RequestParam("senderId") Integer idSender, @RequestParam("receiverId")Integer idReceiver){
+        friendshipService.addFriend(idSender,idReceiver);
+    }
+
 }
