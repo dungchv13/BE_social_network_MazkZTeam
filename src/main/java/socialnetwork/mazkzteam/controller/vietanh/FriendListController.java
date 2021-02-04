@@ -23,7 +23,7 @@ public class FriendListController {
     Response res = new Response();
 
     @GetMapping
-    public Response FriendList(@PathVariable("username") String username){
+    public Response FriendList(@PathVariable("username") String username) {
         User user = userService.findUserByUsername(username);
         List<IFriend> userReceiver = friendshipService.getListFriend(user.getId());
         res.data = userReceiver;
@@ -33,13 +33,18 @@ public class FriendListController {
     }
 
     @GetMapping("friendreceiver")
-    public Response FriendReceiverList(@PathVariable("username") String username){
+    public Response FriendReceiverList(@PathVariable("username") String username) {
         User user = userService.findUserByUsername(username);
-       List<IFriend> userReceiver = friendshipService.receiverList(user.getId());
+        List<IFriend> userReceiver = friendshipService.receiverList(user.getId());
         res.data = userReceiver;
         res.status = res.SUCCESS;
         res.message = "Success";
         return res;
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteFriend(@RequestParam("senderId") Integer idSender, @RequestParam("receiverId") Integer idReceiver){
+        friendshipService.deleteFriend(idReceiver,idSender);
     }
 
 }

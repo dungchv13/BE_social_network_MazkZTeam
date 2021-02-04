@@ -10,4 +10,5 @@ import java.util.List;
 public interface FriendshipService extends CommonService<Friendship>{
     List<IFriend> receiverList(Integer id);
     List<IFriend> getListFriend(Integer id);
+    void deleteFriend(Integer idReceiver,Integer idSender);
 }

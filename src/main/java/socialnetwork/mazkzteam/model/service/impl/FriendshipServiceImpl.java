@@ -49,4 +49,10 @@ public class FriendshipServiceImpl implements FriendshipService {
         return friendshipRepository.getListFriend(id);
     }
 
+    @Override
+    public void deleteFriend(Integer idReceiver,Integer idSender) {
+        friendshipRepository.deleteFriend(idReceiver,idSender);
+    }
+
+
 }
