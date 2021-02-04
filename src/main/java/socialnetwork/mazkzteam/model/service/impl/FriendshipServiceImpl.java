@@ -3,7 +3,7 @@ package socialnetwork.mazkzteam.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.entities.Friendship;
-import socialnetwork.mazkzteam.model.entities.User;
+import socialnetwork.mazkzteam.model.entities.IFriend;
 import socialnetwork.mazkzteam.model.repositories.FriendshipRepository;
 import socialnetwork.mazkzteam.model.service.FriendshipService;
 
@@ -40,7 +40,13 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public List<Friendship> receiverList(Integer id) {
-        return friendshipRepository.findAllByUserReceiverAndStatusFalse(id);
+    public List<IFriend> receiverList(Integer id) {
+        return friendshipRepository.receiverList(id);
     }
+
+    @Override
+    public List<IFriend> getListFriend(Integer id) {
+        return friendshipRepository.getListFriend(id);
+    }
+
 }
