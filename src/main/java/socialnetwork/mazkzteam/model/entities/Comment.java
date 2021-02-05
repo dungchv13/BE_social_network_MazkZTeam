@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -36,6 +38,9 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "comment_id", insertable = false,updatable = false)
     private Comment comment;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<Emote> emoteList = new ArrayList<>();
 
     private Integer comment_id;
 

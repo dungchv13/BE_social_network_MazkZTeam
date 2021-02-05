@@ -3,14 +3,8 @@ package socialnetwork.mazkzteam.controller.hai;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import socialnetwork.mazkzteam.controller.Response;
-import socialnetwork.mazkzteam.model.entities.Comment;
-import socialnetwork.mazkzteam.model.entities.Photo;
-import socialnetwork.mazkzteam.model.entities.Post;
-import socialnetwork.mazkzteam.model.entities.User;
-import socialnetwork.mazkzteam.model.service.CommentService;
-import socialnetwork.mazkzteam.model.service.PhotoService;
-import socialnetwork.mazkzteam.model.service.PostService;
-import socialnetwork.mazkzteam.model.service.UserService;
+import socialnetwork.mazkzteam.model.entities.*;
+import socialnetwork.mazkzteam.model.service.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -32,6 +26,9 @@ public class PostController {
     @Autowired
     CommentService commentService;
     Response res = new Response();
+
+    @Autowired
+    EmoteService emoteService;
 
     @GetMapping
     public User getUser(@PathVariable("username") String username) {
@@ -88,6 +85,15 @@ public class PostController {
         return newComment;
     }
 
+    @PostMapping("/create/like")
+    public Emote addLike(@PathVariable("username") String username, @RequestBody Emote emote){
+        User user = userService.findUserByUsername(username);
+        emote.setPost_id(emote.getPost_id());
+        emote.setUser_id(user.getId());
+        Emote newLike = emoteService.save(emote);
+        return newLike;
+    }
+
     @DeleteMapping("/delete/post/{id}")
     public boolean deletePost(@PathVariable("id") int id){
         return postService.deleteById(id);
@@ -100,5 +106,21 @@ public class PostController {
         res.status = res.SUCCESS;
         res.message = "Success";
         return res;
+    }
+
+    @GetMapping("/checkliked/{postId}")
+    public Response isLiked(@PathVariable("username") String username, @PathVariable ("postId") int postId){
+        User user = userService.findUserByUsername(username);
+        List<Emote> emoteList = emoteService.isLiked(postId, user.getId());
+        res.data = emoteList.size();
+        res.status = res.SUCCESS;
+        res.message = "Success";
+        return res;
+    }
+
+    @DeleteMapping("/dislike/{postId}")
+    public void disLiked(@PathVariable("username") String username, @PathVariable("postId") int postId){
+        User user = userService.findUserByUsername(username);
+        emoteService.disLiked(postId,user.getId());
     }
 }

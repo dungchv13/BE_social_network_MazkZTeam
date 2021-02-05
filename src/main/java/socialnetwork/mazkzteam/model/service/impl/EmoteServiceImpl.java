@@ -38,4 +38,13 @@ public class EmoteServiceImpl implements EmoteService {
     }
 
 
+    @Override
+    public List<Emote> isLiked(int postId, int userId) {
+        return emoteRepository.isLiked(postId, userId);
+    }
+
+    @Override
+    public void disLiked(int postId, int userId) {
+        emoteRepository.deleteEmoteByPost_idAndUser_id(postId,userId);
+    }
 }
