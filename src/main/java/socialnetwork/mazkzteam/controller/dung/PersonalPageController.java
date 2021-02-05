@@ -80,7 +80,7 @@ public class PersonalPageController {
         return postService.deleteById(id);
     }
 
-    @PutMapping
+    @PutMapping("update/post")
     public Post updatePost(@PathVariable("username") String username,@RequestBody Post post){
         User user = userService.findUserByUsername(username);
         Post post1 = postService.findById(post.getId());
@@ -94,12 +94,13 @@ public class PersonalPageController {
             photo.setPost_id(post.getId());
         }
         photoService.saveAllPhoto(newPhotoList);
+
         return postService.save(post1);
     }
 
-
-    public boolean deletePhotos(int postid){
-        return photoService.deleteAllPhoto(postid);
+    @GetMapping("/post/{id}")
+    public Post search(@PathVariable("id") int id){
+        return postService.findById(id);
     }
     
 }
