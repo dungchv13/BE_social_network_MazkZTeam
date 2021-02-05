@@ -93,7 +93,7 @@ public class UserAdminController {
             oldUser.get().setPhone(user.getPhone());
             Set<Role> roles = new HashSet<>();
             user.getRoles().forEach(role -> {
-                if (role.getName().equals("admin")) {
+                if (role.getName().equals("admin") || role.getName().equals("ROLE_ADMIN")) {
                     Role adminRole = roleService.findByName("ROLE_ADMIN").get();
                     roles.add(adminRole);
                 } else {
@@ -133,7 +133,7 @@ public class UserAdminController {
         newUser.setPhone(user.getPhone());
         Set<Role> roles = new HashSet<>();
         user.getRoles().forEach(role -> {
-            if (role.getName().equals("admin")) {
+            if (role.getName().equals("admin") || role.getName().equals("ROLE_ADMIN")) {
                 Role adminRole = roleService.findByName("ROLE_ADMIN").get();
                 roles.add(adminRole);
             } else {
