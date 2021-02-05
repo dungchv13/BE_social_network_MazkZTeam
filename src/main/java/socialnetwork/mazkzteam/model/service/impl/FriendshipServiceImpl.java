@@ -64,5 +64,10 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendshipRepository.addFriend(idSender,idReceiver);
     }
 
+    @Override
+    public void cancelFriendRequest(Integer idSender, Integer idReceiver) {
+        friendshipRepository.cancelFriendRequest(idSender,idReceiver);
+    }
+
 
 }

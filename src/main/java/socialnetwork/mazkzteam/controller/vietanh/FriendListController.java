@@ -57,4 +57,9 @@ public class FriendListController {
         friendshipService.addFriend(idSender,idReceiver);
     }
 
+    @GetMapping("cancel")
+    public void cancelFriendRequest(@RequestParam("senderId") Integer idSender, @RequestParam("receiverId")Integer idReceiver){
+        friendshipService.cancelFriendRequest(idSender,idReceiver);
+    }
+
 }

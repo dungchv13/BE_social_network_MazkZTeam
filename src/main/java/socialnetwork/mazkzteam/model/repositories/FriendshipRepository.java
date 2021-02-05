@@ -45,4 +45,10 @@ public interface FriendshipRepository extends JpaRepository<Friendship,Integer> 
             "VALUES (false ,?,?)",nativeQuery = true)
     void addFriend(Integer idSender, Integer idReceiver);
 
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM friendship\n" +
+            "WHERE (user_sender_id= ? AND user_receiver_id=?) AND status = false ",nativeQuery = true)
+    void cancelFriendRequest(Integer idSender, Integer idReceiver);
+
 }
