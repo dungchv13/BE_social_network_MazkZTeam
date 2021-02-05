@@ -67,12 +67,17 @@ public class PersonalPageController {
 
     @PostMapping("/create/comment")
     public Comment createComment(@PathVariable("username") String username,@RequestBody Comment comment){
-        User user = userService.findUserByUsername(username);
+        User user = userService.findById(comment.getUser_id());
         comment.setUser_id(user.getId());
         comment.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         Comment newComment = commentService.save(comment);
         newComment.setUser(user);
         return newComment;
+    }
+
+    @DeleteMapping("/delete/post/{id}")
+    public boolean deletePost(@PathVariable("id") int id){
+        return postService.deleteById(id);
     }
 
     @PutMapping
@@ -82,12 +87,19 @@ public class PersonalPageController {
         post1.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
         post1.setContent(post.getContent());
 
+        photoService.deleteAllPhoto(post1.getId());
+
+        List<Photo> newPhotoList = post.getPhotoList();
+        for (Photo photo : newPhotoList) {
+            photo.setPost_id(post.getId());
+        }
+        photoService.saveAllPhoto(newPhotoList);
         return postService.save(post1);
     }
 
 
-    @DeleteMapping("/delete/post/{id}")
-    public boolean deletePost(@PathVariable("id") int id){
-        return postService.deleteById(id);
+    public boolean deletePhotos(int postid){
+        return photoService.deleteAllPhoto(postid);
     }
+    
 }
