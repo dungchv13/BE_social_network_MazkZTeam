@@ -80,6 +80,11 @@ public class PersonalPageController {
         return postService.deleteById(id);
     }
 
+    @DeleteMapping("/delete/comment/{id}")
+    public boolean deleteComment(@PathVariable("id") int id){
+        return commentService.deleteById(id);
+    }
+
     @PutMapping("update/post")
     public Post updatePost(@PathVariable("username") String username,@RequestBody Post post){
         User user = userService.findUserByUsername(username);
@@ -98,9 +103,23 @@ public class PersonalPageController {
         return postService.save(post1);
     }
 
+    @PutMapping("update/comment")
+    public Comment updateComment(@PathVariable("username") String username,@RequestBody Comment comment){
+        User user = userService.findUserByUsername(username);
+        Comment comment1 = commentService.findById(comment.getId());
+        comment1.setContent(comment.getContent());
+
+        return commentService.save(comment1);
+    }
+
     @GetMapping("/post/{id}")
     public Post search(@PathVariable("id") int id){
         return postService.findById(id);
+    }
+
+    @GetMapping("/comment/{id}")
+    public Comment searchcomment(@PathVariable("id") int id){
+        return commentService.findById(id);
     }
     
 }
