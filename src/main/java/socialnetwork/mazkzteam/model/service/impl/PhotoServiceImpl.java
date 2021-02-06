@@ -42,4 +42,14 @@ public class PhotoServiceImpl implements PhotoService {
     public List<Photo> saveAllPhoto(List<Photo> photoList) {
         return photoRepository.saveAll(photoList);
     }
+
+    @Override
+    public boolean deleteAllPhotoByHai(int id) {
+        try{
+            photoRepository.deleteAllByHai(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

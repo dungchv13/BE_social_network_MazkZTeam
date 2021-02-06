@@ -85,13 +85,13 @@ public class PostController {
         return newComment;
     }
 
-    @PostMapping("/create/like")
-    public Emote addLike(@PathVariable("username") String username, @RequestBody Emote emote){
-        User user = userService.findUserByUsername(username);
-        emote.setPost_id(emote.getPost_id());
-        emote.setUser_id(user.getId());
-        Emote newLike = emoteService.save(emote);
-        return newLike;
+    @PostMapping("/create/emote")
+    public Emote createEmote(@RequestBody Emote emote){
+        User user = userService.findById(emote.getUser_id());
+        Emote emote1 = emoteService.save(emote);
+        emote1.setUser(user);
+
+        return emote1;
     }
 
     @DeleteMapping("/delete/post/{id}")
@@ -108,19 +108,58 @@ public class PostController {
         return res;
     }
 
-    @GetMapping("/checkliked/{postId}")
-    public Response isLiked(@PathVariable("username") String username, @PathVariable ("postId") int postId){
-        User user = userService.findUserByUsername(username);
-        List<Emote> emoteList = emoteService.isLiked(postId, user.getId());
-        res.data = emoteList.size();
-        res.status = res.SUCCESS;
-        res.message = "Success";
-        return res;
-    }
+//    @GetMapping("/checkliked/{postId}")
+//    public Response isLiked(@PathVariable("username") String username, @PathVariable ("postId") int postId){
+//        User user = userService.findUserByUsername(username);
+//        List<Emote> emoteList = emoteService.isLiked(postId, user.getId());
+//        res.data = emoteList.size();
+//        res.status = res.SUCCESS;
+//        res.message = "Success";
+//        return res;
+//    }
 
     @DeleteMapping("/dislike/{postId}")
-    public void disLiked(@PathVariable("username") String username, @PathVariable("postId") int postId){
+    public boolean disLiked(@PathVariable("username") String username, @PathVariable("postId") int postId){
         User user = userService.findUserByUsername(username);
-        emoteService.disLiked(postId,user.getId());
+        return emoteService.disLiked(postId,user.getId());
     }
+
+    @PutMapping("/update/post")
+    public Post updatePost(@PathVariable("username") String username,@RequestBody Post post){
+        User user = userService.findUserByUsername(username);
+        Post post1 = postService.findById(post.getId());
+        post1.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
+        post1.setContent(post.getContent());
+
+        photoService.deleteAllPhotoByHai(post1.getId());
+
+        List<Photo> newPhotoList = post.getPhotoList();
+        for (Photo photo : newPhotoList) {
+            photo.setPost_id(post.getId());
+        }
+        photoService.saveAllPhoto(newPhotoList);
+
+        return postService.save(post1);
+    }
+
+    @DeleteMapping("/delete/comment/{id}")
+    public boolean deleteComment(@PathVariable("id") int id){
+        return commentService.deleteById(id);
+    }
+
+    @PutMapping("update/comment")
+    public Comment updateComment(@PathVariable("username") String username,@RequestBody Comment comment){
+        User user = userService.findUserByUsername(username);
+        Comment comment1 = commentService.findById(comment.getId());
+        comment1.setContent(comment.getContent());
+
+        return commentService.save(comment1);
+    }
+
+    @DeleteMapping("/delete/emote/comment/{id}")
+    public boolean deleteEmoteComment(@PathVariable("username") String username,@PathVariable("id") int id){
+        User user = userService.findUserByUsername(username);
+        return emoteService.dislikedComment(id, user.getId());
+    }
+
 }
