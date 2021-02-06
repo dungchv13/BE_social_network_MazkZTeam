@@ -39,9 +39,19 @@ public class EmoteServiceImpl implements EmoteService {
 
 
     @Override
-    public boolean disliked(int post_id, int user_id) {
+    public boolean dislikedPost(int post_id, int user_id) {
         try{
             emoteRepository.deleteEmoteByPost_idAndUser_id(post_id,user_id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean dislikedComment(int comment_id, int user_id) {
+        try{
+            emoteRepository.deleteEmoteByComment_idAndUser_id(comment_id,user_id);
             return true;
         }catch (Exception e){
             return false;

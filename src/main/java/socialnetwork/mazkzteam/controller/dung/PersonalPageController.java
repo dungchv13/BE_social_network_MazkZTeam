@@ -93,7 +93,13 @@ public class PersonalPageController {
     @DeleteMapping("/delete/emote/post/{id}")
     public boolean deleteEmote(@PathVariable("username") String username,@PathVariable("id") int id){
         User user = userService.findUserByUsername(username);
-        return emoteService.disliked(id, user.getId());
+        return emoteService.dislikedPost(id, user.getId());
+    }
+
+    @DeleteMapping("/delete/emote/comment/{id}")
+    public boolean deleteEmoteComment(@PathVariable("username") String username,@PathVariable("id") int id){
+        User user = userService.findUserByUsername(username);
+        return emoteService.dislikedComment(id, user.getId());
     }
 
     @PutMapping("update/post")

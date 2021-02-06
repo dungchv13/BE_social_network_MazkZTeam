@@ -9,4 +9,7 @@ import socialnetwork.mazkzteam.model.entities.Emote;
 public interface EmoteRepository extends JpaRepository<Emote,Integer> {
     @Transactional
     void deleteEmoteByPost_idAndUser_id(int postId, int userId);
+
+    @Transactional
+    void deleteEmoteByComment_idAndUser_id(int commentId, int userId);
 }
