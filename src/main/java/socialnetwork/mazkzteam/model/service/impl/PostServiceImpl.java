@@ -9,7 +9,6 @@ import socialnetwork.mazkzteam.model.service.PostService;
 
 import java.util.List;
 
-
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -45,6 +44,5 @@ public class PostServiceImpl implements PostService {
     public List<Post> findAllByUser(User user) {
         return postRepository.findAllByUser(user);
     }
-
 
 }
