@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -30,10 +32,13 @@ public class User {
 
     private Timestamp dateOfBirth;
 
+    @Pattern(regexp = "^(Male)|(Female)$")
     private String gender;
 
+    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,5}$")
     private String phone;
 
+    @Email
     private String email;
 
     private String address;
@@ -48,7 +53,7 @@ public class User {
     @JsonProperty
     private boolean blocked;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name="user_id")},
