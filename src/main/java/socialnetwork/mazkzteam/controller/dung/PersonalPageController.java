@@ -2,18 +2,11 @@ package socialnetwork.mazkzteam.controller.dung;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import socialnetwork.mazkzteam.model.entities.Comment;
-import socialnetwork.mazkzteam.model.entities.Photo;
-import socialnetwork.mazkzteam.model.entities.Post;
-import socialnetwork.mazkzteam.model.entities.User;
-import socialnetwork.mazkzteam.model.service.CommentService;
-import socialnetwork.mazkzteam.model.service.PhotoService;
-import socialnetwork.mazkzteam.model.service.PostService;
-import socialnetwork.mazkzteam.model.service.UserService;
+import socialnetwork.mazkzteam.model.entities.*;
+import socialnetwork.mazkzteam.model.service.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +26,9 @@ public class PersonalPageController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private EmoteService emoteService;
 
     @GetMapping
     public User getUser(@PathVariable("username") String username){
@@ -75,6 +71,15 @@ public class PersonalPageController {
         return newComment;
     }
 
+    @PostMapping("/create/emote")
+    public Emote createEmote(@RequestBody Emote emote){
+        User user = userService.findById(emote.getUser_id());
+        Emote emote1 = emoteService.save(emote);
+        emote1.setUser(user);
+
+        return emote1;
+    }
+
     @DeleteMapping("/delete/post/{id}")
     public boolean deletePost(@PathVariable("id") int id){
         return postService.deleteById(id);
@@ -83,6 +88,12 @@ public class PersonalPageController {
     @DeleteMapping("/delete/comment/{id}")
     public boolean deleteComment(@PathVariable("id") int id){
         return commentService.deleteById(id);
+    }
+
+    @DeleteMapping("/delete/emote/post/{id}")
+    public boolean deleteEmote(@PathVariable("username") String username,@PathVariable("id") int id){
+        User user = userService.findUserByUsername(username);
+        return emoteService.disliked(id, user.getId());
     }
 
     @PutMapping("update/post")
@@ -105,7 +116,6 @@ public class PersonalPageController {
 
     @PutMapping("update/comment")
     public Comment updateComment(@PathVariable("username") String username,@RequestBody Comment comment){
-        User user = userService.findUserByUsername(username);
         Comment comment1 = commentService.findById(comment.getId());
         comment1.setContent(comment.getContent());
 
@@ -121,5 +131,7 @@ public class PersonalPageController {
     public Comment searchcomment(@PathVariable("id") int id){
         return commentService.findById(id);
     }
+
+
     
 }
