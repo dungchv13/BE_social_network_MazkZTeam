@@ -52,4 +52,14 @@ public class PhotoServiceImpl implements PhotoService {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteAllPhoto(int id) {
+        try{
+            photoRepository.deleteAllDung(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

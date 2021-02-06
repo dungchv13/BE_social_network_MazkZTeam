@@ -11,4 +11,8 @@ public interface PhotoRepository extends JpaRepository<Photo,Integer> {
     @Modifying
     @Query(value = "delete from social_network.photo where post_id = ?1",nativeQuery = true)
     void deleteAllByHai(int post_id);
+    @Transactional
+    @Modifying
+    @Query(value = "delete from photo where post_id = ?1",nativeQuery = true)
+    void deleteAllDung(int post_id);
 }
