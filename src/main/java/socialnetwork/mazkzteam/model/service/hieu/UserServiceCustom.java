@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.Jwt.UserPrinciple;
 import socialnetwork.mazkzteam.model.entities.User;
-import socialnetwork.mazkzteam.model.repositories.hieu.UserRepository;
+import socialnetwork.mazkzteam.model.repositories.UserRepository;
 
 import java.util.Optional;
 
@@ -33,6 +33,7 @@ public class UserServiceCustom implements IUserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
     @Override
     public User saveWithOutEncodePass(User user) {
         return userRepository.save(user);

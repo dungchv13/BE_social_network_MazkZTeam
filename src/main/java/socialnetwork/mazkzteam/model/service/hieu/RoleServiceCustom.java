@@ -3,7 +3,7 @@ package socialnetwork.mazkzteam.model.service.hieu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.entities.Role;
-import socialnetwork.mazkzteam.model.repositories.hieu.RoleRepository;
+import socialnetwork.mazkzteam.model.repositories.RoleRepository;
 
 import java.util.Optional;
 
