@@ -12,5 +12,5 @@ public interface IFriend {
     String getLast_name();
     String getPhone();
     String getGender();
-    boolean getStatus();
+    Boolean getStatus();
 }

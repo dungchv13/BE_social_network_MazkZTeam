@@ -69,5 +69,15 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendshipRepository.cancelFriendRequest(idSender,idReceiver);
     }
 
+    @Override
+    public List<IFriend> friendNotRequest(Integer userID) {
+        return friendshipRepository.friendNotRequest(userID);
+    }
+
+    @Override
+    public List<IFriend> senderFriendRequestList(Integer idSender) {
+        return friendshipRepository.senderFriendRequestList(idSender);
+    }
+
 
 }

@@ -14,6 +14,10 @@ public interface FriendshipService extends CommonService<Friendship>{
     void acceptFriend(Integer idSender, Integer idReceiver);
     void addFriend(Integer idSender, Integer idReceiver);
     void cancelFriendRequest(Integer idSender, Integer idReceiver);
+    List<IFriend> friendNotRequest(Integer userID);
+    List<IFriend> senderFriendRequestList(Integer idSender);
+
+
 
 
 }

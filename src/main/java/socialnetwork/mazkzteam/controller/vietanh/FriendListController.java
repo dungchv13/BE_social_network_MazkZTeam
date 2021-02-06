@@ -22,6 +22,25 @@ public class FriendListController {
 
     Response res = new Response();
 
+    @GetMapping("getuser")
+    public Response getUser(@PathVariable("username") String username){
+        User user = userService.findUserByUsername(username);
+        res.data = user;
+        res.status = res.SUCCESS;
+        res.message = "Success";
+        return res;
+    }
+
+    @GetMapping("friendnotrequest")
+    public Response FriendNotRequestList(@PathVariable("username") String username){
+        User user = userService.findUserByUsername(username);
+        List<IFriend> friendNotRequest = friendshipService.friendNotRequest(user.getId());
+        res.data = friendNotRequest;
+        res.status = res.SUCCESS;
+        res.message = "Success";
+        return res;
+    }
+
     @GetMapping
     public Response FriendList(@PathVariable("username") String username) {
         User user = userService.findUserByUsername(username);
@@ -60,6 +79,16 @@ public class FriendListController {
     @GetMapping("cancel")
     public void cancelFriendRequest(@RequestParam("senderId") Integer idSender, @RequestParam("receiverId")Integer idReceiver){
         friendshipService.cancelFriendRequest(idSender,idReceiver);
+    }
+
+    @GetMapping("/sendedrequest")
+    public Response senderFriendRequest(@PathVariable("username") String username ){
+        User user = userService.findUserByUsername(username);
+        List<IFriend> senderFriendRequest = friendshipService.senderFriendRequestList(user.getId());
+        res.data = senderFriendRequest;
+        res.status = res.SUCCESS;
+        res.message = "Success";
+        return res;
     }
 
 }
