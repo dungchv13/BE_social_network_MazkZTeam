@@ -8,7 +8,6 @@ import socialnetwork.mazkzteam.model.entities.User;
 import socialnetwork.mazkzteam.model.service.FriendshipService;
 import socialnetwork.mazkzteam.model.service.UserService;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @CrossOrigin("*")
