@@ -66,7 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register",
                         "/admin/user/**",
                         "/post/api/**",
-                        "/friendlist/**")
+                        "/friendlist/**",
+                        "/personal/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
