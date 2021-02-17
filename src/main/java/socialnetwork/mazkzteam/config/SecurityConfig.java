@@ -66,8 +66,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register",
                         "/admin/user/**",
                         "/post/api/**",
-                        "/friendlist/**")
-                .permitAll()
+                        "/friendlist/**",
+                        "/socket/**",
+                        "/app/send/messageTo/**",
+                        "/message/**",
+                        "/chatroom/**"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

@@ -34,13 +34,22 @@ public class UserAdminController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User getUser(@PathVariable("id") int id) {
-        Optional<User> exam = userService.findById(id);
-        if (exam.isPresent()) {
+        Optional<User> user = userService.findById(id);
+        if (user.isPresent()) {
             return userService.findById(id).get();
         }
         return null;
     }
 
+    @GetMapping("/a/{username}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    public User getUserByName(@PathVariable("username") String username) {
+        Optional<User> user = userService.findByUsername(username);
+        if (user.isPresent()) {
+            return userService.findByUsername(username).get();
+        }
+        return null;
+    }
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<User> createUser(@RequestBody User user) {
