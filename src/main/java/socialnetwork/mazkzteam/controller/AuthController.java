@@ -45,6 +45,7 @@ public class AuthController {
         if(userService.existsByUsername(user.getUsername())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        user.setAvatar("https://i1.wp.com/www.mnleadership.org/wp-content/uploads/2017/02/Anonymous-Avatar.png?ssl=1");
         User newUser = getNewUser(user);
         userService.save(newUser);
         return new ResponseEntity(HttpStatus.OK);
