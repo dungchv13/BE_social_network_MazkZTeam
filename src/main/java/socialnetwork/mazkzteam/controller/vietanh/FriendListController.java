@@ -2,13 +2,16 @@ package socialnetwork.mazkzteam.controller.vietanh;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import socialnetwork.mazkzteam.model.entities.ChatRoom;
 import socialnetwork.mazkzteam.model.entities.Friendship;
 import socialnetwork.mazkzteam.model.entities.IFriend;
 import socialnetwork.mazkzteam.model.entities.User;
 import socialnetwork.mazkzteam.model.service.FriendshipService;
 import socialnetwork.mazkzteam.model.service.UserService;
+import socialnetwork.mazkzteam.model.service.hieu.IChatRoomService;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -18,6 +21,8 @@ public class FriendListController {
     FriendshipService friendshipService;
     @Autowired
     UserService userService;
+    @Autowired
+    IChatRoomService chatRoomService;
 
     Response res = new Response();
 
@@ -67,6 +72,17 @@ public class FriendListController {
 
     @GetMapping("/accept")
     public void acceptFriend(@RequestParam("senderId") Integer idSender, @RequestParam("receiverId")Integer idReceiver){
+        if (!chatRoomService.getChatRoomByIds(idSender, idReceiver).isPresent()) {
+           ChatRoom chatRoom = new ChatRoom();
+           User firstUser = userService.findById(idSender);
+           User secondUser = userService.findById(idReceiver);
+           chatRoom.setName("/message/" + idSender + "/" + idReceiver);
+           chatRoom.setFirst_user_id(idSender);
+           chatRoom.setFirstUser(firstUser);
+           chatRoom.setSecondUser(secondUser);
+           chatRoom.setSecond_user_id(idReceiver);
+           chatRoomService.save(chatRoom);
+        }
         friendshipService.acceptFriend(idSender,idReceiver);
     }
 
