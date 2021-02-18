@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-
-
 @RequestMapping("/personal/{username}")
 @CrossOrigin("*")
 public class PersonalPageController {
