@@ -70,8 +70,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/socket/**",
                         "/app/send/messageTo/**",
                         "/message/**",
-                        "/chatroom/**"
-                ).permitAll()
+                        "/chatroom/**",
+                        "/personal/**")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
