@@ -42,7 +42,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public List<Club> getClubsByUserCreate(int user_id) {
-        return clubRepository.clubListByUserCreate(user_id);
+        return clubRepository.getClubsByFounder_Id(user_id);
     }
 
     @Override
