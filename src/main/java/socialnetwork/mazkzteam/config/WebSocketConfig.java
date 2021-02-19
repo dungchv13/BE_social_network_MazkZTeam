@@ -15,11 +15,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
-//    @Override
-//        public void configureMessageBroker(final MessageBrokerRegistry registry){
-//        registry.setApplicationDestinationPrefixes("/app");
-//        registry.enableSimpleBroker("/message");
-//    }
+
+
+
     @Override
     public void configureMessageBroker(final MessageBrokerRegistry registry){
         registry.setApplicationDestinationPrefixes("/app");

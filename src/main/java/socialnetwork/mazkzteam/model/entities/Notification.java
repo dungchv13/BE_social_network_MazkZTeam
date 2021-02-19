@@ -1,11 +1,14 @@
 package socialnetwork.mazkzteam.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 @CrossOrigin("*")
 @Entity
@@ -15,23 +18,30 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class ChatRoom {
+public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String typeNoti;
 
     @ManyToOne
-    @JoinColumn(name = "first_user_id",insertable = false,updatable = false)
-    private User firstUser;
+    @JoinColumn(name = "user_sender_id",insertable = false,updatable = false)
+    private User userSender;
 
-    private int first_user_id;
+    private int user_sender_id;
+
 
     @ManyToOne
-    @JoinColumn(name = "second_user_id",insertable = false,updatable = false)
-    private User secondUser;
+    @JoinColumn(name = "user_receiver_id",insertable = false,updatable = false)
+    private User userReceiver;
 
-    private int second_user_id;
+    private int user_receiver_id;
+
+    private Timestamp createdDate;
+
+    @JsonProperty
+    private boolean status;
+
 
 }

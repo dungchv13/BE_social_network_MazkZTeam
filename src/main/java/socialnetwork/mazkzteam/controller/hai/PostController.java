@@ -47,19 +47,15 @@ public class PostController {
         return res;
     }
 
-    @GetMapping("post")
-    public Response getPost(@RequestParam Integer id) {
-        res.data = postService.findById(id);
-        res.status = res.SUCCESS;
-        res.message = "Success";
-        return res;
-    }
 
     @PostMapping("/create")
     public Response save(@PathVariable("username") String username, @RequestBody Post p) {
         User user = userService.findUserByUsername(username);
         p.setUser_id(user.getId());
         p.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        if(p.getClub_id() == 0){
+            p.setClub_id(9999);
+        }
         Post post = postService.save(p);
 
         List<Photo> photoList = p.getPhotoList();

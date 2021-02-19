@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.context.annotation.EnableMBeanExport;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,18 @@ public class Post {
     private Timestamp createdDate;
 
     private Timestamp modifiedAt;
+
+    private int protective;
+
+//    (1: public; 2: friendonly; 3:private)
+
+    @ManyToOne
+    @JoinColumn(name = "club_id",insertable = false,updatable = false)
+    private Club club;
+
+    private int club_id;
+
+
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Photo> photoList = new ArrayList<>();
