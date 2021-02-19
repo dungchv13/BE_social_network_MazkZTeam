@@ -50,6 +50,9 @@ public class PersonalPageController {
         User user = userService.findUserByUsername(username);
         post.setUser_id(user.getId());
         post.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        if(post.getClub_id() == 0){
+            post.setClub_id(9999);
+        }
         Post post1 = postService.save(post);
 
         List<Photo> photoList = post.getPhotoList();
@@ -105,6 +108,7 @@ public class PersonalPageController {
     @PutMapping("update/post")
     public Post updatePost(@PathVariable("username") String username,@RequestBody Post post){
         User user = userService.findUserByUsername(username);
+
         Post post1 = postService.findById(post.getId());
         post1.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
         post1.setContent(post.getContent());
