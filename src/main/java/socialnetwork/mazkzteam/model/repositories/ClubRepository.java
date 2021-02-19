@@ -1,7 +1,9 @@
 package socialnetwork.mazkzteam.model.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import socialnetwork.mazkzteam.model.entities.Club;
 import socialnetwork.mazkzteam.model.entities.User;
 
@@ -17,4 +19,14 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
     List<Club> getClubByMembersContains(User user);
 
     List<Club> getClubsByMembersIsNotContaining(User user);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE from clubs_members where member_id = ?1 and club_id = ?2",nativeQuery = true)
+    void leaveClub(int user_id,int club_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE from clubs_members where user_id = ?1 and club_id = ?2",nativeQuery = true)
+    void cancelJoinReq(int user_id,int club_id);
 }
