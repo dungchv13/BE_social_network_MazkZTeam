@@ -54,4 +54,24 @@ public class ClubServiceImpl implements ClubService {
     public List<Club> getClubsByMembersIsNotContaining(User user) {
         return clubRepository.getClubsByMembersIsNotContaining(user);
     }
+
+    @Override
+    public boolean leaveClub(int user_id, int club_id) {
+        try {
+            clubRepository.leaveClub(user_id, club_id);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean cancelJoinReq(int user_id, int club_id) {
+        try {
+            clubRepository.cancelJoinReq(user_id, club_id);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
 }

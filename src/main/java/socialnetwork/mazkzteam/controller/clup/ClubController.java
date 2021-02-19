@@ -53,6 +53,33 @@ public class ClubController {
         return listClubs;
     }
 
+    @DeleteMapping("/leaveclub/{club_id}")
+    public boolean leaveClub(@PathVariable("username") String username,@PathVariable("club_id") int club_id){
+        User user = userService.findUserByUsername(username);
+        return clubService.leaveClub(user.getId(),club_id);
+    }
+
+    @DeleteMapping("/cancelJoinReq/{club_id}")
+    public boolean cancelJoinReq(@PathVariable("username") String username,@PathVariable("club_id") int club_id){
+        User user = userService.findUserByUsername(username);
+        return clubService.cancelJoinReq(user.getId(),club_id);
+    }
+
+    @DeleteMapping("/deleteclub/{club_id}")
+    public boolean deleteClub(@PathVariable("club_id") int club_id){
+        Club club = clubService.findById(club_id);
+
+        for (User user :club.getMembers()) {
+            clubService.leaveClub(user.getId(),club_id);
+        }
+        for (User user :club.getUserReqToJoi()) {
+            clubService.cancelJoinReq(user.getId(),club_id);
+        }
+
+        return clubService.deleteById(club_id);
+    }
+
+
     @GetMapping("/test")
     public Club getClubTest(){
         return clubService.findById(10004);

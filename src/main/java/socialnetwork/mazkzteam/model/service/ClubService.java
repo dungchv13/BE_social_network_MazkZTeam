@@ -11,4 +11,8 @@ public interface ClubService extends CommonService<Club> {
     List<Club> getClubByMembersContains(User user);
 
     List<Club> getClubsByMembersIsNotContaining(User user);
+
+    boolean leaveClub(int user_id,int club_id);
+
+    boolean cancelJoinReq(int user_id,int club_id);
 }
