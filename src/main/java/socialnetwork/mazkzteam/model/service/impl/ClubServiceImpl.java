@@ -3,6 +3,7 @@ package socialnetwork.mazkzteam.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import socialnetwork.mazkzteam.model.entities.Club;
+import socialnetwork.mazkzteam.model.entities.User;
 import socialnetwork.mazkzteam.model.repositories.ClubRepository;
 import socialnetwork.mazkzteam.model.service.ClubService;
 
@@ -39,4 +40,18 @@ public class ClubServiceImpl implements ClubService {
     }
 
 
+    @Override
+    public List<Club> getClubsByUserCreate(int user_id) {
+        return clubRepository.getClubsByFounder_Id(user_id);
+    }
+
+    @Override
+    public List<Club> getClubByMembersContains(User user) {
+        return clubRepository.getClubByMembersContains(user);
+    }
+
+    @Override
+    public List<Club> getClubsByMembersIsNotContaining(User user) {
+        return clubRepository.getClubsByMembersIsNotContaining(user);
+    }
 }
