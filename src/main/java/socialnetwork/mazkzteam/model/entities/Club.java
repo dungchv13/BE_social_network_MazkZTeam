@@ -30,8 +30,8 @@ public class Club {
 
     private Timestamp createdDate;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
-    private List<Post> postList;
+//    @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
+//    private List<Post> postList;
 
     @ManyToOne
     @JoinColumn(name = "founder_id",insertable = false,updatable = false)
