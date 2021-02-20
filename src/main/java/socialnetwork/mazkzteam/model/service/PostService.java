@@ -13,4 +13,6 @@ import java.util.List;
 @Service
 public interface PostService extends CommonService<Post>{
     List<Post> findAllByUser(User user);
+
+    List<Post> findAllCommonFriendPublicPost(int id);
 }
