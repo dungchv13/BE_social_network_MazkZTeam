@@ -45,4 +45,9 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByUser(user);
     }
 
+    @Override
+    public List<Post> findAllCommonFriendPublicPost(int id) {
+        return postRepository.findAllCommonFriendPublicPost(id);
+    }
+
 }

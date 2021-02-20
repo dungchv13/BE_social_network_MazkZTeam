@@ -1,6 +1,8 @@
 package socialnetwork.mazkzteam.controller.hai;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import socialnetwork.mazkzteam.controller.Response;
 import socialnetwork.mazkzteam.model.entities.*;
@@ -47,6 +49,11 @@ public class PostController {
         return res;
     }
 
+    @GetMapping("/public")
+    public List<Post> getAllCommonFriendPublicPost(@PathVariable("username") String username) {
+        User user = userService.findUserByUsername(username);
+        return postService.findAllCommonFriendPublicPost(user.getId());
+    }
 
     @PostMapping("/create")
     public Response save(@PathVariable("username") String username, @RequestBody Post p) {
@@ -126,6 +133,7 @@ public class PostController {
         Post post1 = postService.findById(post.getId());
         post1.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
         post1.setContent(post.getContent());
+        post1.setProtective(post.getProtective());
 
         photoService.deleteAllPhotoByHai(post1.getId());
 
