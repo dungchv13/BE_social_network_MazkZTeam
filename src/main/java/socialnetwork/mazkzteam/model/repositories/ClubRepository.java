@@ -19,6 +19,8 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
 
     List<Club> getClubByMembersContains(User user);
 
+    List<Club> getClubByUserReqToJoiContains(User user);
+
     List<Club> getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(User user1,User user2);
 
     @Transactional
@@ -37,4 +39,6 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
     @Query(value = "INSERT into clubs_user_req_to_joins values (?1,?2)",nativeQuery = true)
     void reqToJoin(int club_id,int user_id);
 
+
+    Club findClubByName(String club_name);
 }

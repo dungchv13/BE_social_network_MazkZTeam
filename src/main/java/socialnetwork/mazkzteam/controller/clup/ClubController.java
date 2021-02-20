@@ -9,7 +9,6 @@ import socialnetwork.mazkzteam.model.service.UserService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -54,8 +53,15 @@ public class ClubController {
     @GetMapping("/getclubsnotjoinedyet")
     public List<Club> getClubsUserNotJoinedYet(@PathVariable("username") String username){
         User user = userService.findUserByUsername(username);
-        List<Club> listClubs = clubService.getClubsByMembersIsNotContaining(user);
+        List<Club> listClubs = clubService.getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(user);
         listClubs.remove(0);
+        return listClubs;
+    }
+
+    @GetMapping("/getclubsrequested")
+    public List<Club> getClubsRequested(@PathVariable("username") String username){
+        User user = userService.findUserByUsername(username);
+        List<Club> listClubs = clubService.getClubByUserReqToJoiContains(user);
         return listClubs;
     }
 
@@ -73,10 +79,17 @@ public class ClubController {
         return clubService.leaveClub(user.getId(),club_id);
     }
 
-    @DeleteMapping("/cancelJoinReq/{club_id}")
+    @DeleteMapping("/canceljoinreq/{club_id}")
     public boolean cancelJoinReq(@PathVariable("username") String username,@PathVariable("club_id") int club_id){
+        Club club = clubService.findById(club_id);
         User user = userService.findUserByUsername(username);
-        return clubService.cancelJoinReq(user.getId(),club_id);
+        club.getUserReqToJoi().remove(user);
+        try{
+            clubService.save(club);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @DeleteMapping("/deleteclub/{club_id}")
@@ -91,17 +104,6 @@ public class ClubController {
         }
 
         return clubService.deleteById(club_id);
-    }
-
-
-    @GetMapping("/test")
-    public Club getClubTest(){
-        return clubService.findById(10004);
-    }
-
-    @GetMapping("/test1")
-    public User getUser(){
-        return userService.findById(2);
     }
 
 
