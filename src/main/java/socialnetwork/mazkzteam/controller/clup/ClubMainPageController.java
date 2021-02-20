@@ -31,6 +31,17 @@ public class ClubMainPageController {
         return clubService.findClubByName(club_name);
     }
 
+    @GetMapping("/ismember")
+    public boolean checkMember(@PathVariable("club_name") String club_name,
+                               @PathVariable("username") String username){
+        User user = userService.findUserByUsername(username);
+        Club club = clubService.findClubByName(club_name);
+        if(club.getMembers().contains(user)){
+            return true;
+        }
+        return false;
+    }
+
     @GetMapping("/posts")
     public List<Post> getPosts(@PathVariable("club_name") String club_name,
                                @PathVariable("username") String username){
@@ -103,4 +114,6 @@ public class ClubMainPageController {
             return false;
         }
     }
+
+
 }
