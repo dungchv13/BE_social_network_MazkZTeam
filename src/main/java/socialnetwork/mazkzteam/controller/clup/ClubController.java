@@ -9,6 +9,7 @@ import socialnetwork.mazkzteam.model.service.UserService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,11 @@ public class ClubController {
     public List<Club> getClubsUserJoined(@PathVariable("username") String username){
         User user = userService.findUserByUsername(username);
         List<Club> listClubs = clubService.getClubByMembersContains(user);
+
+        List<Club> listClubByUserCreate = clubService.getClubsByUserCreate(user.getId());
+
+        listClubs.removeAll(listClubByUserCreate);
+
         return listClubs;
     }
 
@@ -52,6 +58,14 @@ public class ClubController {
         listClubs.remove(0);
         return listClubs;
     }
+
+    @GetMapping("/reqjoin/{club_id}")
+    public boolean reqJoin(@PathVariable("username")String username,@PathVariable("club_id")int club_id){
+        User user = userService.findUserByUsername(username);
+        return clubService.reqToJoin(user.getId(), club_id);
+    }
+
+
 
     @DeleteMapping("/leaveclub/{club_id}")
     public boolean leaveClub(@PathVariable("username") String username,@PathVariable("club_id") int club_id){

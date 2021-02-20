@@ -25,6 +25,7 @@ public class Club {
     private int id;
 
     @JsonProperty
+    @Column(unique = true)
     private String name;
 
     @JsonProperty

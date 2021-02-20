@@ -52,8 +52,9 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public List<Club> getClubsByMembersIsNotContaining(User user) {
-        return clubRepository.getClubsByMembersIsNotContaining(user);
+        return clubRepository.getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(user,user);
     }
+
 
     @Override
     public boolean leaveClub(int user_id, int club_id) {
@@ -69,6 +70,16 @@ public class ClubServiceImpl implements ClubService {
     public boolean cancelJoinReq(int user_id, int club_id) {
         try {
             clubRepository.cancelJoinReq(user_id, club_id);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean reqToJoin(int user_id, int club_id) {
+        try {
+            clubRepository.reqToJoin(club_id,user_id);
             return true;
         }catch(Exception e){
             return false;

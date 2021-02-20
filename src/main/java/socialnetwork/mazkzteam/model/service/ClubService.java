@@ -15,4 +15,6 @@ public interface ClubService extends CommonService<Club> {
     boolean leaveClub(int user_id,int club_id);
 
     boolean cancelJoinReq(int user_id,int club_id);
+
+    boolean reqToJoin(int user_id,int club_id);
 }

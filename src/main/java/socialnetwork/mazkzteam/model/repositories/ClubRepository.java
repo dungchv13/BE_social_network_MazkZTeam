@@ -10,6 +10,7 @@ import socialnetwork.mazkzteam.model.entities.User;
 import java.util.List;
 
 public interface ClubRepository extends JpaRepository<Club,Integer> {
+
 //    @Query(value = "SELECT *\n" +
 //            "FROM club where founder_id = ?1",nativeQuery = true)
 //    List<Club> clubListByUserCreate(Integer id);
@@ -18,7 +19,7 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
 
     List<Club> getClubByMembersContains(User user);
 
-    List<Club> getClubsByMembersIsNotContaining(User user);
+    List<Club> getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(User user1,User user2);
 
     @Transactional
     @Modifying
@@ -29,4 +30,11 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
     @Modifying
     @Query(value = "DELETE from clubs_members where user_id = ?1 and club_id = ?2",nativeQuery = true)
     void cancelJoinReq(int user_id,int club_id);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT into clubs_user_req_to_joins values (?1,?2)",nativeQuery = true)
+    void reqToJoin(int club_id,int user_id);
+
 }
