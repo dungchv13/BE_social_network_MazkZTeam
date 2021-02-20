@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/app/send/messageTo/**",
                         "/message/**",
                         "/chatroom/**",
-                        "/personal/**")
+                        "/personal/**",
+                        "/notification/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
