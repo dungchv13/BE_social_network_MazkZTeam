@@ -2,6 +2,7 @@ package socialnetwork.mazkzteam.model.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import socialnetwork.mazkzteam.model.entities.Club;
 import socialnetwork.mazkzteam.model.entities.Post;
 import socialnetwork.mazkzteam.model.entities.User;
 import socialnetwork.mazkzteam.model.repositories.PostRepository;
@@ -48,6 +49,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllCommonFriendPublicPost(int id) {
         return postRepository.findAllCommonFriendPublicPost(id);
+    }
+
+    @Override
+    public List<Post> getPostsByClub(Club club) {
+        return postRepository.getPostsByClub(club);
     }
 
 }

@@ -51,7 +51,12 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public List<Club> getClubsByMembersIsNotContaining(User user) {
+    public List<Club> getClubByUserReqToJoiContains(User user) {
+        return clubRepository.getClubByUserReqToJoiContains(user);
+    }
+
+    @Override
+    public List<Club> getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(User user) {
         return clubRepository.getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(user,user);
     }
 
@@ -84,5 +89,10 @@ public class ClubServiceImpl implements ClubService {
         }catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    public Club findClubByName(String club_name) {
+        return clubRepository.findClubByName(club_name);
     }
 }
