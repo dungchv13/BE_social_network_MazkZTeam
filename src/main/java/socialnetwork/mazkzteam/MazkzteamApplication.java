@@ -3,8 +3,10 @@ package socialnetwork.mazkzteam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import socialnetwork.mazkzteam.model.entities.Club;
 import socialnetwork.mazkzteam.model.entities.Role;
 import socialnetwork.mazkzteam.model.entities.User;
+import socialnetwork.mazkzteam.model.service.ClubService;
 import socialnetwork.mazkzteam.model.service.hieu.IRoleService;
 import socialnetwork.mazkzteam.model.service.hieu.IUserService;
 
@@ -19,6 +21,8 @@ public class MazkzteamApplication {
     private IUserService userService;
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    private ClubService clubService;
 
     public static void main(String[] args) {
         SpringApplication.run(MazkzteamApplication.class, args);
@@ -28,6 +32,7 @@ public class MazkzteamApplication {
     public void init() {
         List<User> users = (List<User>) userService.findAll();
         List<Role> roleList = (List<Role>) roleService.findAll();
+        List<Club> clubList = clubService.getAll();
         if (roleList.isEmpty()) {
             Role roleAdmin = new Role();
             roleAdmin.setId(1);
@@ -50,6 +55,15 @@ public class MazkzteamApplication {
             admin.setBlocked(false);
             admin.setRoles(roles);
             userService.save(admin);
+        }
+        if (clubList.isEmpty()) {
+            Club club = new Club();
+            club.setId(9999);
+            club.setName("defaultGroup");
+            club.setFounder_id(1);
+            User user = userService.findByUsername("admin").get();
+            club.setFounder(user);
+            clubService.save(club);
         }
     }
 
