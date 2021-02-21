@@ -52,11 +52,6 @@ public class WebSocketController {
         return chatMessage;
     }
 
-    @MessageMapping("/friends/add/{idSender}/{idReceiver}")
-    public void addFriend(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
-        friendshipService.addFriend(idSender,idReceiver);
-        this.template.convertAndSend("/friends","1");
-    }
     @MessageMapping("/notification")
     public Notification sendNotification(@Payload Notification notification){
         System.out.println(notification);
@@ -68,6 +63,41 @@ public class WebSocketController {
         notificationService.save(notification);
         this.template.convertAndSend("/notification", notification);
         return notification;
+    }
+
+    @MessageMapping("/friends/add/{idSender}/{idReceiver}")
+    public void addFriend(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        friendshipService.addFriend(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
+    }
+
+    @MessageMapping("/friends/cancel/{idSender}/{idReceiver}")
+    public void cancelRequest(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        friendshipService.cancelFriendRequest(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
+    }
+
+    @MessageMapping("/friends/accept/{idSender}/{idReceiver}")
+    public void acceptRequest(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        if (!chatRoomService.getChatRoomByIds(idSender, idReceiver).isPresent()) {
+            ChatRoom chatRoom = new ChatRoom();
+            User firstUser = userService.findById(idSender).get();
+            User secondUser = userService.findById(idReceiver).get();
+            chatRoom.setName("/message/" + idSender + "/" + idReceiver);
+            chatRoom.setFirst_user_id(idSender);
+            chatRoom.setFirstUser(firstUser);
+            chatRoom.setSecondUser(secondUser);
+            chatRoom.setSecond_user_id(idReceiver);
+            chatRoomService.save(chatRoom);
+        }
+        friendshipService.acceptFriend(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
+    }
+
+    @MessageMapping("/friends/unfriend/{idSender}/{idReceiver}")
+    public void unFriend(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        friendshipService.deleteFriend(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
     }
 
 }

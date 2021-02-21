@@ -56,7 +56,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship,Integer> 
     @Query(value = "SELECT  social_network.user.id,social_network.user.avatar,social_network.user.username,social_network.user.address,social_network.user.date_of_birth,social_network.user.first_name,social_network.user.last_name,social_network.user.phone,social_network.user.gender,friend2.status\n" +
             "FROM user\n" +
             "LEFT JOIN (select * from social_network.friendship where user_receiver_id = ?1 or user_sender_id = ?1) as friend2\n" +
-            "ON user.id = friend2.user_sender_id or user.id = friend2.user_receiver_id group by social_network.user.username having user.id<>?1 and status is null  ",nativeQuery = true)
+            "ON user.id = friend2.user_sender_id or user.id = friend2.user_receiver_id group by social_network.user.username having user.id<>?1 and status is null",nativeQuery = true)
     List<IFriend> friendNotRequest(Integer userId);
 
     @Query(value = "SELECT social_network.user.id,social_network.user.avatar,social_network.user.username,social_network.user.address,social_network.user.date_of_birth,social_network.user.first_name,social_network.user.last_name,social_network.user.phone,social_network.user.gender,social_network.friendship.status\n" +
