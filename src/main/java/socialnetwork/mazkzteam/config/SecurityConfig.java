@@ -72,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/message/**",
                         "/chatroom/**",
                         "/personal/**",
+                        "/notification/**",
                         "/friends/**")
                 .permitAll()
                 .anyRequest().authenticated()

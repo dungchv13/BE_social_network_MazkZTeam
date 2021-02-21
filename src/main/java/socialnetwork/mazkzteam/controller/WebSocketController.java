@@ -11,6 +11,9 @@ import socialnetwork.mazkzteam.model.entities.ChatMessage;
 import socialnetwork.mazkzteam.model.entities.ChatRoom;
 import socialnetwork.mazkzteam.model.entities.Friendship;
 import socialnetwork.mazkzteam.model.service.FriendshipService;
+import socialnetwork.mazkzteam.model.entities.Notification;
+import socialnetwork.mazkzteam.model.entities.User;
+import socialnetwork.mazkzteam.model.service.NotificationService;
 import socialnetwork.mazkzteam.model.service.hieu.IChatRoomService;
 import socialnetwork.mazkzteam.model.service.hieu.IMessageService;
 import socialnetwork.mazkzteam.model.service.hieu.IUserService;
@@ -33,6 +36,9 @@ public class WebSocketController {
     @Autowired
     FriendshipService friendshipService;
 
+    @Autowired
+    NotificationService notificationService;
+
 
     @MessageMapping("/send/message/{chatRoomId}")
     public ChatMessage sendMessageTo(@Payload ChatMessage chatMessage, @DestinationVariable("chatRoomId") int chatRoomId){
@@ -51,4 +57,17 @@ public class WebSocketController {
         friendshipService.addFriend(idSender,idReceiver);
         this.template.convertAndSend("/friends","1");
     }
+    @MessageMapping("/notification")
+    public Notification sendNotification(@Payload Notification notification){
+        System.out.println(notification);
+        User sender = userService.findById(notification.getUser_sender_id()).get();
+        User receiver = userService.findById(notification.getUser_receiver_id()).get();
+        notification.setStatus(false);
+        notification.setUserSender(sender);
+        notification.setUserReceiver(receiver);
+        notificationService.save(notification);
+        this.template.convertAndSend("/notification", notification);
+        return notification;
+    }
+
 }
