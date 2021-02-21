@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/personal/**",
                         "/club/**",
                         "/clubmainpage/**",
+                        "/clubsocket/**",
                         "/notification/**",
                         "/friends/**")
                 .permitAll()

@@ -10,7 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -46,21 +48,21 @@ public class Club {
 
     private int founder_id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "clubs_members",
             joinColumns = {@JoinColumn(name="club_id")},
             inverseJoinColumns = {@JoinColumn(name="member_id")}
     )
-    private List<User> members = new ArrayList<>();
+    private Set<User> members = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "clubs_user_req_to_joins",
             joinColumns = {@JoinColumn(name="club_id")},
             inverseJoinColumns = {@JoinColumn(name="user_id")}
     )
-    private List<User> userReqToJoi = new ArrayList<>();
+    private Set<User> userReqToJoi = new HashSet<>();
 
 }
 
