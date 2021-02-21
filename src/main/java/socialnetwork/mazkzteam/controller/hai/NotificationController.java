@@ -55,28 +55,18 @@ public class NotificationController {
     }
 
     @DeleteMapping("/delete/{id}/{username}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<String> deleteNotification(@PathVariable("id") int id, @PathVariable("username") String username) {
+    public void deleteNotification(@PathVariable("id") int id, @PathVariable("username") String username) {
         User receiverUser = userService.findUserByUsername(username);
         notificationService.deleteByReceiverIdAndSenderId(receiverUser.getId(), id);
-        return new ResponseEntity<>("Notification has been removed",HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Notification> updateProduct(@PathVariable("id") int id, @RequestBody Notification notification) {
-        Notification notification1 = notificationService.findById(id);
-
-            notification1.setTypeNoti(notification.getTypeNoti());
-            notification1.setUser_receiver_id(notification.getUser_receiver_id());
-            notification1.setUser_sender_id(notification.getUser_sender_id());
-            User sender = userService.findById(notification.getUser_sender_id());
-            User receiver = userService.findById(notification.getUser_receiver_id());
-            notification1.setUserSender(sender);
-            notification1.setUserReceiver(receiver);
-            notification1.setStatus(notification.isStatus());
-            notificationService.save(notification1);
-            return new ResponseEntity<>(notification1, HttpStatus.OK);
+    //readNotification.
+    @PutMapping("/read")
+    public ResponseEntity<Notification> updateProduct(@RequestBody Notification notification) {
+            Notification updatedNotification = notification;
+            updatedNotification.setStatus(true);
+            notificationService.save(updatedNotification);
+            return new ResponseEntity<>(updatedNotification, HttpStatus.OK);
     }
 
 

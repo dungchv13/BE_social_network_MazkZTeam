@@ -1,6 +1,7 @@
 package socialnetwork.mazkzteam.model.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import socialnetwork.mazkzteam.model.entities.Notification;
@@ -13,7 +14,8 @@ public interface NotificationRepository extends JpaRepository<Notification,Integ
             "where user_receiver_id =?1", nativeQuery = true)
     List<Notification> findAllByUser_receiver_id (int id);
 
-
+    @Transactional
+    @Modifying
     @Query(value = "delete from\n" +
             "            social_network.notification\n" +
             "            where user_receiver_id = ?1 and user_sender_id = ?2", nativeQuery = true)
