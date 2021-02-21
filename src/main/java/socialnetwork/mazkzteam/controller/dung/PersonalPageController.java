@@ -44,6 +44,16 @@ public class PersonalPageController {
 
         return postList;
     }
+    @GetMapping("/posts/public-guest")
+    public List<Post> getPublicUserPost(@PathVariable("username") String username) {
+        User user = userService.findUserByUsername(username);
+        return postService.findAllPublicUserPost(user.getId());
+    }
+    @GetMapping("/posts/public-notOwner")
+    public List<Post> getPublicFriendUserPost(@PathVariable("username") String username) {
+        User user = userService.findUserByUsername(username);
+        return postService.findAllPublicAndFriendUserPost(user.getId());
+    }
 
     @PostMapping("/create/post")
     public Post createPost(@PathVariable("username") String username,@RequestBody Post post){
@@ -112,6 +122,7 @@ public class PersonalPageController {
         Post post1 = postService.findById(post.getId());
         post1.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
         post1.setContent(post.getContent());
+        post1.setProtective(post.getProtective());
 
         photoService.deleteAllPhoto(post1.getId());
 

@@ -15,4 +15,8 @@ public interface PostService extends CommonService<Post>{
     List<Post> findAllByUser(User user);
 
     List<Post> findAllCommonFriendPublicPost(int id);
+
+    List<Post> findAllPublicUserPost(int id);
+
+    List<Post> findAllPublicAndFriendUserPost(int id);
 }

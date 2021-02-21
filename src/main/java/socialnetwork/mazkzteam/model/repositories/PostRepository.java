@@ -17,4 +17,10 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
             "where (user_id =?1 or user_id<>?1 and (protective=1 or protective=2)) and club_id=9999\n" +
             "group by created_date order by created_date desc;", nativeQuery = true)
     List<Post> findAllCommonFriendPublicPost(int id);
+
+    @Query(value = "select * from post where user_id=?1 and protective=1 and club_id=9999", nativeQuery = true)
+    List<Post> findAllPublicUserPost(int id);
+
+    @Query(value = "select * from post where user_id=?1 and (protective=1 or protective=2) and club_id=9999", nativeQuery = true)
+    List<Post> findAllPublicAndFriendUserPost(int id);
 }
