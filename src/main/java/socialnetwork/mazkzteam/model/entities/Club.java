@@ -1,6 +1,7 @@
 package socialnetwork.mazkzteam.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,13 +24,18 @@ public class Club {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonProperty
+    @Column(unique = true)
     private String name;
 
+    @JsonProperty
     private int permission;
 
     //1: public 2: private
 
     private Timestamp createdDate;
+
+    private String detail;
 
 //    @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
 //    private List<Post> postList;
@@ -45,15 +52,15 @@ public class Club {
             joinColumns = {@JoinColumn(name="club_id")},
             inverseJoinColumns = {@JoinColumn(name="member_id")}
     )
-    private List<User> members;
+    private List<User> members = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
-            name = "clubs_userReqToJoins",
+            name = "clubs_user_req_to_joins",
             joinColumns = {@JoinColumn(name="club_id")},
             inverseJoinColumns = {@JoinColumn(name="user_id")}
     )
-    private List<User> userReqToJoin;
+    private List<User> userReqToJoi = new ArrayList<>();
 
 }
 

@@ -2,6 +2,7 @@ package socialnetwork.mazkzteam.model.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import socialnetwork.mazkzteam.model.entities.Club;
 import socialnetwork.mazkzteam.model.entities.Post;
 import socialnetwork.mazkzteam.model.entities.User;
 
@@ -17,4 +18,6 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
             "where (user_id =?1 or user_id<>?1 and (protective=1 or protective=2)) and club_id=9999\n" +
             "group by created_date order by created_date desc;", nativeQuery = true)
     List<Post> findAllCommonFriendPublicPost(int id);
+
+    List<Post> getPostsByClub(Club club);
 }
