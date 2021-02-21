@@ -12,6 +12,7 @@ import socialnetwork.mazkzteam.model.service.UserService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -45,7 +46,9 @@ public class NotificationController {
             notification.setStatus(false);
             notification.setUserSender(sender);
             notification.setUserReceiver(receiver);
-            notification.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+            Date date = new Date();
+            Timestamp created_date = new Timestamp(date.getTime());
+            notification.setCreatedDate(created_date);
             notificationService.save(notification);
             return new ResponseEntity<>(notification, HttpStatus.OK);
         } catch (Exception e) {
