@@ -31,7 +31,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public boolean deleteById(int id) {
-        if(findById(id) != null){
+        if (findById(id) != null) {
             notificationRepository.deleteById(id);
             return true;
         }
@@ -39,4 +39,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
 
+    @Override
+    public List<Notification> findAllByUser_receiver_id(int id) {
+        return notificationRepository.findAllByUser_receiver_id(id);
+    }
+
+    @Override
+    public void deleteByReceiverIdAndSenderId(int receiverId, int senderId) {
+        notificationRepository.deleteByReceiverIdAndSenderId(receiverId, senderId);
+    }
 }

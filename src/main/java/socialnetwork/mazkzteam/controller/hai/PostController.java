@@ -54,7 +54,6 @@ public class PostController {
         User user = userService.findUserByUsername(username);
         return postService.findAllCommonFriendPublicPost(user.getId());
     }
-
     @PostMapping("/create")
     public Response save(@PathVariable("username") String username, @RequestBody Post p) {
         User user = userService.findUserByUsername(username);
