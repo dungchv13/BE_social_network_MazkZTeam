@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import socialnetwork.mazkzteam.model.entities.ChatMessage;
 import socialnetwork.mazkzteam.model.entities.ChatRoom;
+import socialnetwork.mazkzteam.model.entities.User;
+import socialnetwork.mazkzteam.model.service.FriendshipService;
 import socialnetwork.mazkzteam.model.service.hieu.IChatRoomService;
 import socialnetwork.mazkzteam.model.service.hieu.IMessageService;
 import socialnetwork.mazkzteam.model.service.hieu.IUserService;
@@ -28,6 +30,8 @@ public class WebSocketController {
     IMessageService messageService;
     @Autowired
     IChatRoomService chatRoomService;
+    @Autowired
+    FriendshipService friendshipService;
 
 
     @MessageMapping("/send/message/{chatRoomId}")
@@ -40,6 +44,41 @@ public class WebSocketController {
             messageService.save(chatMessage);
         }
         return chatMessage;
+    }
+
+    @MessageMapping("/friends/add/{idSender}/{idReceiver}")
+    public void addFriend(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        friendshipService.addFriend(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
+    }
+
+    @MessageMapping("/friends/cancel/{idSender}/{idReceiver}")
+    public void cancelRequest(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        friendshipService.cancelFriendRequest(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
+    }
+
+    @MessageMapping("/friends/accept/{idSender}/{idReceiver}")
+    public void acceptRequest(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        if (!chatRoomService.getChatRoomByIds(idSender, idReceiver).isPresent()) {
+            ChatRoom chatRoom = new ChatRoom();
+            User firstUser = userService.findById(idSender).get();
+            User secondUser = userService.findById(idReceiver).get();
+            chatRoom.setName("/message/" + idSender + "/" + idReceiver);
+            chatRoom.setFirst_user_id(idSender);
+            chatRoom.setFirstUser(firstUser);
+            chatRoom.setSecondUser(secondUser);
+            chatRoom.setSecond_user_id(idReceiver);
+            chatRoomService.save(chatRoom);
+        }
+        friendshipService.acceptFriend(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
+    }
+
+    @MessageMapping("/friends/unfriend/{idSender}/{idReceiver}")
+    public void unFriend(@DestinationVariable("idSender") int idSender, @DestinationVariable("idReceiver") int idReceiver){
+        friendshipService.deleteFriend(idSender,idReceiver);
+        this.template.convertAndSend("/friends","1");
     }
 
 }
