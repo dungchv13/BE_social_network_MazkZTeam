@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
@@ -48,7 +51,9 @@ public class Club {
 
     private int founder_id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinTable(
             name = "clubs_members",
             joinColumns = {@JoinColumn(name="club_id")},
@@ -56,7 +61,9 @@ public class Club {
     )
     private Set<User> members = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinTable(
             name = "clubs_user_req_to_joins",
             joinColumns = {@JoinColumn(name="club_id")},

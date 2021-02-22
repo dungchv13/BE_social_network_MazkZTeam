@@ -21,4 +21,6 @@ public interface ClubService extends CommonService<Club> {
     boolean reqToJoin(int user_id,int club_id);
 
     Club findClubByName(String club_name);
+
+    boolean acceptJoinClub(int club_id,int user_id);
 }

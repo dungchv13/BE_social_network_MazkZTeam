@@ -39,6 +39,11 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
     @Query(value = "INSERT into clubs_user_req_to_joins values (?1,?2)",nativeQuery = true)
     void reqToJoin(int club_id,int user_id);
 
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT into clubs_members values (?1,?2)",nativeQuery = true)
+    void acceptJoinClub(int club_id,int member_id);
+
 
     Club findClubByName(String club_name);
 }

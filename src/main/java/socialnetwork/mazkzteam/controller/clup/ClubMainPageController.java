@@ -82,12 +82,11 @@ public class ClubMainPageController {
     @GetMapping("/acceptjoinreq/{reqjoin_id}")
     public boolean acceptJoinReq(@PathVariable("club_name") String club_name,
                               @PathVariable("reqjoin_id") int reqjoin_id){
-        Club club = clubService.findClubByName(club_name);
-        User user = userService.findById(reqjoin_id);
-        club.getUserReqToJoi().remove(user);
-        club.getMembers().add(user);
         try{
-            clubService.save(club);
+            Club club = clubService.findClubByName(club_name);
+            User user = userService.findById(reqjoin_id);
+            clubService.cancelJoinReq(user.getId(),club.getId());
+            clubService.acceptJoinClub(club.getId(),user.getId());
             return true;
         }catch (Exception e){
             return false;
@@ -104,11 +103,10 @@ public class ClubMainPageController {
     @DeleteMapping("/refuse/{reqjoin_id}")
     public boolean refuseJoinReq(@PathVariable("club_name") String club_name,
                               @PathVariable("reqjoin_id") int reqjoin_id){
-        Club club = clubService.findClubByName(club_name);
-        User user = userService.findById(reqjoin_id);
-        club.getUserReqToJoi().remove(user);
         try{
-            clubService.save(club);
+            Club club = clubService.findClubByName(club_name);
+            User user = userService.findById(reqjoin_id);
+            clubService.cancelJoinReq(user.getId(),club.getId());
             return true;
         }catch (Exception e){
             return false;

@@ -119,8 +119,10 @@ public class WebSocketController {
         User user = us.findUserByUsername(username);
         club.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         club.setFounder_id(user.getId());
-        club.getMembers().add(user);
+
         club = clubService.save(club);
+
+        clubService.acceptJoinClub(club.getId(),user.getId());
         this.template.convertAndSend("/clubsocket",new ClubSocket(false,club));
         return club;
 

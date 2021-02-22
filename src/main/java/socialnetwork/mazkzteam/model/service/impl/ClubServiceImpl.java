@@ -95,4 +95,14 @@ public class ClubServiceImpl implements ClubService {
     public Club findClubByName(String club_name) {
         return clubRepository.findClubByName(club_name);
     }
+
+    @Override
+    public boolean acceptJoinClub(int club_id, int user_id) {
+        try{
+            clubRepository.acceptJoinClub(club_id,user_id);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
+    }
 }
