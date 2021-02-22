@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -59,4 +60,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name="role_id")}
     )
     private Set<Role> roles;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, firstName, lastName, dateOfBirth);
+    }
 }
