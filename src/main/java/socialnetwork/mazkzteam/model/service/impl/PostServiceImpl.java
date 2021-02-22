@@ -66,4 +66,14 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllPublicAndFriendUserPost(id);
     }
 
+    @Override
+    public boolean deleteAllByClub_id(int id) {
+        try{
+            postRepository.deleteAllByClub_idHieu(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
 }

@@ -22,4 +22,6 @@ public interface PostService extends CommonService<Post>{
     List<Post> findAllPublicUserPost(int id);
 
     List<Post> findAllPublicAndFriendUserPost(int id);
+
+    boolean deleteAllByClub_id(int id);
 }

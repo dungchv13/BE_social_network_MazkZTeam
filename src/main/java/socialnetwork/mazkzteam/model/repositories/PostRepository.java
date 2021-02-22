@@ -1,7 +1,9 @@
 package socialnetwork.mazkzteam.model.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import socialnetwork.mazkzteam.model.entities.Club;
 import socialnetwork.mazkzteam.model.entities.Post;
 import socialnetwork.mazkzteam.model.entities.User;
@@ -29,4 +31,9 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
 
     @Query(value = "select * from post where user_id=?1 and (protective=1 or protective=2) and club_id=9999", nativeQuery = true)
     List<Post> findAllPublicAndFriendUserPost(int id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from post where club_id = ?1",nativeQuery = true)
+    void deleteAllByClub_idHieu(int id);
 }

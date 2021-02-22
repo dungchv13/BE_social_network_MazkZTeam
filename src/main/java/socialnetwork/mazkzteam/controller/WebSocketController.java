@@ -142,6 +142,8 @@ public class WebSocketController {
             clubService.cancelJoinReq(user.getId(),club_id);
         }
 
+        postService.deleteAllByClub_id(club_id);
+
         boolean isDelete = clubService.deleteById(club_id);
 
         this.template.convertAndSend("/clubsocket",new ClubSocket(true,club));
