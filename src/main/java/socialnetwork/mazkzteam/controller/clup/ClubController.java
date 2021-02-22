@@ -9,6 +9,7 @@ import socialnetwork.mazkzteam.model.service.UserService;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,7 @@ public class ClubController {
     public List<Club> getListClubByUserCreate(@PathVariable("username") String username){
         User user = userService.findUserByUsername(username);
         List<Club> listClubByUserCreate = clubService.getClubsByUserCreate(user.getId());
+        Collections.reverse(listClubByUserCreate);
         return listClubByUserCreate;
     }
 
@@ -47,6 +49,8 @@ public class ClubController {
 
         listClubs.removeAll(listClubByUserCreate);
 
+        Collections.reverse(listClubs);
+
         return listClubs;
     }
 
@@ -55,6 +59,8 @@ public class ClubController {
         User user = userService.findUserByUsername(username);
         List<Club> listClubs = clubService.getClubsByMembersIsNotContainingAndUserReqToJoiIsNotContaining(user);
         listClubs.remove(0);
+
+        Collections.reverse(listClubs);
         return listClubs;
     }
 
@@ -62,6 +68,7 @@ public class ClubController {
     public List<Club> getClubsRequested(@PathVariable("username") String username){
         User user = userService.findUserByUsername(username);
         List<Club> listClubs = clubService.getClubByUserReqToJoiContains(user);
+        Collections.reverse(listClubs);
         return listClubs;
     }
 

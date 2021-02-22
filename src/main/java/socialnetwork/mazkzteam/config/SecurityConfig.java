@@ -73,9 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/chatroom/**",
                         "/personal/**",
                         "/club/**",
-                        "/clubmainpage/**",
                         "/notification/**",
-                        "/friends/**")
+                        "/friends/**",
+                        "/clubmainpage/**",
+                        "/clubsocket/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();

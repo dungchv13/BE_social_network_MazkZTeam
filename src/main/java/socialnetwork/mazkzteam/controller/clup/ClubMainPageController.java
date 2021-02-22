@@ -47,7 +47,7 @@ public class ClubMainPageController {
                                @PathVariable("username") String username){
         User user = userService.findUserByUsername(username);
         Club club = clubService.findClubByName(club_name);
-        List<User> members = club.getMembers();
+        List<User> members = new ArrayList<>(club.getMembers());
         if(members.contains(user) || club.getPermission() == 1){
             return postService.getPostsByClub(club);
         }
@@ -64,7 +64,7 @@ public class ClubMainPageController {
         if(user.getId() == club.getFounder_id()) {
             club.getMembers().remove(userService.findById(club.getFounder_id()));
         }
-        return club.getMembers();
+        return new ArrayList<>(club.getMembers());
     }
 
     @GetMapping("/reqjoins")
@@ -73,7 +73,7 @@ public class ClubMainPageController {
         User user = userService.findUserByUsername(username);
         Club club = clubService.findClubByName(club_name);
         if(club.getFounder_id() == user.getId()){
-            return club.getUserReqToJoi();
+            return new ArrayList<>(club.getUserReqToJoi());
         }else{
             return new ArrayList<>();
         }
